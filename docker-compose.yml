@@ -43,11 +43,6 @@ services:
       UPLOAD_DIR: /data/uploads
       ROOM_CAPACITY_MODE: block
       JOBS_ENABLED: "true" # job terjadwal: JANGAN jalankan lebih dari 1 replika api
-      # Data awal (personil, ruangan, alat dari CSV): diisi otomatis saat start HANYA jika database masih kosong; tidak pernah menghapus.
-      SEED_ON_START: ${SEED_ON_START:-false}
-      SEED_PASSWORD: ${SEED_PASSWORD:-} # password awal SEMUA akun seed; wajib (min. 12 karakter) jika SEED_ON_START=true
-      SEED_ADMIN_EMAIL: ${SEED_ADMIN_EMAIL:-} # kosong = admin@lab.local (alamat palsu; isi alamat nyata)
-      SEED_ADMIN_NAME: ${SEED_ADMIN_NAME:-}
       JOBS_TIMEZONE: Asia/Jakarta
       EMAIL_ENABLED: ${EMAIL_ENABLED:-false}
       SMTP_HOST: ${SMTP_HOST:-localhost}
