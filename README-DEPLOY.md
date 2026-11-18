@@ -120,6 +120,15 @@ docker run --rm --network lab_default -v "$PWD/../lab-management:/work" -w /work
 ```
 Skrip ini hanya memetakan alat utama (belum Datang/kalibrasi terakhir dan alat pendukung seperti seed).
 
+## Email pengingat kalibrasi (agar tidak spam)
+- Default compose: `CALIBRATION_EMAIL_MODE=manual` → tidak ada email otomatis; kirim lewat **Log Email → Kirim email pengingat…** (pilih penerima dulu).
+- Penerima ditentukan **aturan penanggung jawab** (menu *Penanggung Jawab*), bukan semua SPV. Seed mengisi aturan awal Ach. Effendi dan
+  Muhamad Ridwan Maulana untuk `INV L-ACT 10`. Alat tanpa penanggung jawab tidak dikirimi email ke siapa pun.
+- Urutan aman: set `EMAIL_ENABLED=true` + SMTP → uji lewat **Kirim email uji** → lengkapi aturan sampai *cakupan* penuh → coba pengiriman manual
+  ke satu orang → baru (opsional) `CALIBRATION_EMAIL_MODE=auto`.
+- Migrasi: model baru `equipment_responsibility` ikut migrasi `init`; bila migrasi pertama sudah dibuat, jalankan
+  `npm run db:migrate -- --name add_equipment_responsibility` di lokal dan build ulang image.
+
 ## Operasional
 - **Update**: `git pull && docker compose up -d --build` (migrasi database otomatis saat api start).
 - **Ubah PUBLIC_URL**: wajib `docker compose up -d --build web` (nilai QR tertanam saat build).
@@ -127,6 +136,12 @@ Skrip ini hanya memetakan alat utama (belum Datang/kalibrasi terakhir dan alat p
   (dokumen/sertifikat). Uji restore sebelum dibutuhkan.
 - **IoT**: perangkat sensor mengirim ke `/api/v1/monitoring/readings` dengan `X-Sensor-Key`; jika dipakai, buka `ports` api di compose
   lalu aktifkan blok `location` di `nginx/lab.conf.example` (atau blok `handle` di `Caddyfile`); hanya jalur itu yang dibuka.
+
+## Email pengingat: kirim manual agar tidak spam
+Compose ini memakai `CALIBRATION_EMAIL_MODE=manual` (default): job harian **tidak** mengirim email. Admin mengirimnya sendiri di
+**Log Email → Kirim email pengingat…**: lihat pratinjau per penerima, centang yang akan dikirim (default tidak ada yang terpilih), konfirmasi.
+Untuk kembali ke pengiriman otomatis harian 07:00 ke semua penerima, set `CALIBRATION_EMAIL_MODE=auto` di `.env` lalu
+`docker compose up -d`. Email nyata hanya keluar jika `EMAIL_ENABLED=true` dan SMTP diisi; selain itu semua email hanya dicatat.
 
 ## Batasan yang perlu diketahui
 - Satu replika `web` dan satu replika `api`. `api` menjalankan job terjadwal (ganda jika di-scale) dan `web` menyatukan

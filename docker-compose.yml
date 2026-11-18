@@ -50,6 +50,8 @@ services:
       SEED_ADMIN_NAME: ${SEED_ADMIN_NAME:-}
       JOBS_TIMEZONE: Asia/Jakarta
       EMAIL_ENABLED: ${EMAIL_ENABLED:-false}
+      # manual = job harian TIDAK mengirim email; email hanya lewat tombol admin "Kirim email pengingat" (penerima dipilih). auto = otomatis ke semua.
+      CALIBRATION_EMAIL_MODE: ${CALIBRATION_EMAIL_MODE:-manual}
       SMTP_HOST: ${SMTP_HOST:-localhost}
       SMTP_PORT: ${SMTP_PORT:-587}
       SMTP_SECURE: ${SMTP_SECURE:-false}
