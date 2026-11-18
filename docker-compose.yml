@@ -57,6 +57,7 @@ services:
       SMTP_SECURE: ${SMTP_SECURE:-false}
       SMTP_USER: ${SMTP_USER:-}
       SMTP_PASS: ${SMTP_PASS:-}
+      SETTINGS_ENCRYPTION_KEY: ${SETTINGS_ENCRYPTION_KEY:-}
       MAIL_FROM: ${MAIL_FROM:-Lab Equipment <no-reply@lab.local>}
     volumes:
       - uploads:/data/uploads
